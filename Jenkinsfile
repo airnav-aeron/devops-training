@@ -29,8 +29,7 @@ pipeline {
                 sh "docker push ${REGISTRY}/${APP_NAME}:${IMAGE_TAG}"
             }
         }
-    }
-
+        
         stage('Update Config Repo (GitOps)') {
             steps {
                 withCredentials([string(credentialsId: 'github-token', variable: 'GIT_TOKEN')]) {
@@ -57,4 +56,5 @@ pipeline {
                 }
             }
         }
+    }
 }
