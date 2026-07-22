@@ -31,7 +31,7 @@ pipeline {
         }
     }
 
-stage('Update Config Repo (GitOps)') {
+        stage('Update Config Repo (GitOps)') {
             steps {
                 withCredentials([string(credentialsId: 'github-token', variable: 'GIT_TOKEN')]) {
                     sh """
