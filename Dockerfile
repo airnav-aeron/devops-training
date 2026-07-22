@@ -4,6 +4,10 @@ FROM node:22-alpine
 # Set the working directory
 WORKDIR /app
 
+# Accept build version argument and set as environment variable
+ARG BUILD_VERSION
+ENV BUILD_VERSION=$BUILD_VERSION
+
 # Copy dependency files first (better Docker layer caching)
 COPY package*.json ./
 

@@ -100,7 +100,7 @@
       .then(res => res.json())
       .then(data => {
         document.getElementById('info').innerHTML = `
-          <div><span>Version</span><span>${data.version}</span></div>
+          <div><span>Build Version</span><span>${data.version}</span></div>
           <div><span>Environment</span><span>${data.environment}</span></div>
           <div><span>Hostname</span><span>${data.hostname}</span></div>
         `;
