@@ -19,7 +19,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 // Runs Ton's Dockerfile
-                sh "docker build -t ${REGISTRY}/${APP_NAME}:${IMAGE_TAG} ."
+                sh "docker build --build-arg BUILD_VERSION=${IMAGE_TAG} -t ${REGISTRY}/${APP_NAME}:${IMAGE_TAG} ."
             }
         }
         
