@@ -18,7 +18,7 @@ This serves as a handover document for the Kubernetes/Infrastructure team to inf
 3. **Frontend Dashboard:**
    - Features a modern, glassmorphic UI.
    - Includes full user registration, login, and note-taking capabilities via AJAX (`fetch`).
-   - Dynamically displays real-time CI/CD injected environment variables (Build Version, Environment, Hostname).
+   - Dynamically displays real-time CI/CD injected environment variables (Build Version, Environment, Hostname)..
 
 ---
 
