@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Startup Tech Co.</title>
+  <title>Startup Tech Co. - Dashboard</title>
   <style>
     * {
       margin: 0;
@@ -12,13 +12,14 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0B2335 0%, #1a3a5c 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
       color: #fff;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 2em;
     }
 
     .card {
@@ -26,14 +27,18 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 16px;
       padding: 3em;
-      max-width: 480px;
+      width: 100%;
+      max-width: 500px;
       text-align: center;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
     }
 
     h1 {
-      font-size: 1.8em;
-      margin-bottom: 0.3em;
+      font-size: 2em;
+      margin-bottom: 0.2em;
+      font-weight: 600;
     }
 
     p.subtitle {
@@ -41,74 +46,321 @@
       margin-bottom: 2em;
     }
 
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5em;
-      background: rgba(46, 204, 113, 0.15);
-      border: 1px solid rgba(46, 204, 113, 0.4);
-      color: #2ecc71;
-      padding: 0.5em 1.2em;
-      border-radius: 999px;
-      font-size: 0.9em;
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 1em;
       margin-bottom: 2em;
     }
 
-    .dot {
-      width: 8px;
-      height: 8px;
-      background: #2ecc71;
-      border-radius: 50%;
+    .tab {
+      background: none;
+      border: none;
+      color: #7f93a8;
+      font-size: 1em;
+      cursor: pointer;
+      padding-bottom: 0.5em;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
     }
 
-    .info {
-      text-align: left;
+    .tab:hover {
+      color: #fff;
+    }
+
+    .tab.active {
+      color: #2ecc71;
+      border-bottom: 2px solid #2ecc71;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5em;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 1em;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #2ecc71;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    button {
+      background: #2ecc71;
+      color: #111;
+      border: none;
+      padding: 1em;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #27ae60;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+    }
+
+    .message {
+      margin-top: 1em;
       font-size: 0.9em;
-      color: #cdd9e5;
+      min-height: 1.2em;
+    }
+
+    .error { color: #e74c3c; }
+    .success { color: #2ecc71; }
+
+    /* Dashboard Styles */
+    #dashboard-section {
+      display: none;
+      text-align: left;
+    }
+
+    .note-form {
+      display: flex;
+      gap: 1em;
+      margin-bottom: 2em;
+    }
+    
+    .note-form input {
+      flex: 1;
+    }
+
+    .notes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 0.5em;
+    }
+
+    /* Custom Scrollbar */
+    .notes-list::-webkit-scrollbar { width: 6px; }
+    .notes-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+    .notes-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+
+    .note-item {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 1em;
+      border-radius: 8px;
+      border-left: 4px solid #2ecc71;
+    }
+
+    .note-date {
+      font-size: 0.75em;
+      color: #7f93a8;
+      margin-bottom: 0.5em;
+    }
+
+    .logout-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      margin-top: 2em;
+      width: 100%;
+    }
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.1);
+      box-shadow: none;
+    }
+    .app-info {
+      margin-top: 2em;
+      padding: 1em;
       background: rgba(0, 0, 0, 0.2);
       border-radius: 8px;
-      padding: 1em 1.2em;
+      font-size: 0.85em;
+      color: #cdd9e5;
     }
-
-    .info div {
+    .app-info div {
       display: flex;
       justify-content: space-between;
       padding: 0.4em 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
-
-    .info div:last-child {
+    .app-info div:last-child {
       border-bottom: none;
     }
-
-    .info span:first-child {
+    .app-info span:first-child {
       color: #7f93a8;
     }
   </style>
 </head>
 
 <body>
-  <div class="card">
-    <h1>Startup Tech Co.</h1>
-    <p class="subtitle">Sample Web Application Test 1</p>
-    <div class="status"><span class="dot"></span> System Operational</div>
-    <div class="info" id="info">Loading server info...</div>
+  <div class="card" id="main-card">
+    
+    <!-- Auth Section -->
+    <div id="auth-section">
+      <h1>Startup Tech Co.</h1>
+      <p class="subtitle">Welcome to the secure portal</p>
+      
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('login')" id="tab-login">Login</button>
+        <button class="tab" onclick="switchTab('register')" id="tab-register">Register</button>
+      </div>
+
+      <form id="auth-form" onsubmit="handleAuth(event)">
+        <input type="text" id="username" placeholder="Username" required autocomplete="username">
+        <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+        <button type="submit" id="auth-btn">Sign In</button>
+      </form>
+      <div id="auth-msg" class="message"></div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard-section">
+      <h1>Dashboard</h1>
+      <p class="subtitle">Welcome back, <span id="user-display"></span>!</p>
+
+      <form class="note-form" onsubmit="addNote(event)">
+        <input type="text" id="note-input" placeholder="Enter a new note..." required>
+        <button type="submit">Save</button>
+      </form>
+
+      <div class="notes-list" id="notes-list">
+        <!-- Notes will be populated here -->
+      </div>
+      <div id="dash-msg" class="message"></div>
+
+      <div class="app-info" id="app-info">Loading app info...</div>
+
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
   </div>
 
   <script>
-    fetch('/api/info')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('info').innerHTML = `
-          <div><span>Build Version</span><span>${data.version}</span></div>
+    let currentMode = 'login';
+    let currentUser = null; // { userId, username }
+
+    function switchTab(mode) {
+      currentMode = mode;
+      document.getElementById('tab-login').classList.toggle('active', mode === 'login');
+      document.getElementById('tab-register').classList.toggle('active', mode === 'register');
+      document.getElementById('auth-btn').textContent = mode === 'login' ? 'Sign In' : 'Create Account';
+      document.getElementById('auth-msg').textContent = '';
+    }
+
+    async function handleAuth(e) {
+      e.preventDefault();
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      const msgEl = document.getElementById('auth-msg');
+      
+      const endpoint = currentMode === 'login' ? '/api/login' : '/api/register';
+      
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: user, password: pass })
+        });
+        const data = await res.json();
+        
+        if (!res.ok) throw new Error(data.error || 'Request failed');
+        
+        msgEl.className = 'message success';
+        msgEl.textContent = data.message;
+
+        if (currentMode === 'login') {
+          currentUser = { userId: data.userId, username: data.username };
+          setTimeout(showDashboard, 500);
+        } else {
+          // Registration success, switch to login
+          setTimeout(() => switchTab('login'), 1500);
+        }
+      } catch (err) {
+        msgEl.className = 'message error';
+        msgEl.textContent = err.message;
+      }
+    }
+
+    function showDashboard() {
+      document.getElementById('auth-section').style.display = 'none';
+      document.getElementById('dashboard-section').style.display = 'block';
+      document.getElementById('user-display').textContent = currentUser.username;
+      loadNotes();
+      loadAppInfo();
+    }
+
+    async function loadAppInfo() {
+      try {
+        const res = await fetch('/api/info');
+        const data = await res.json();
+        document.getElementById('app-info').innerHTML = `
+          <div><span>Version</span><span>${data.version}</span></div>
           <div><span>Environment</span><span>${data.environment}</span></div>
           <div><span>Hostname</span><span>${data.hostname}</span></div>
         `;
-      })
-      .catch(() => {
-        document.getElementById('info').innerHTML = '<div>Could not load server info</div>';
-      });
+      } catch (err) {
+        document.getElementById('app-info').innerHTML = '<div>Could not load app info</div>';
+      }
+    }
+
+    function logout() {
+      currentUser = null;
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('auth-msg').textContent = '';
+      document.getElementById('dashboard-section').style.display = 'none';
+      document.getElementById('auth-section').style.display = 'block';
+    }
+
+    async function addNote(e) {
+      e.preventDefault();
+      const input = document.getElementById('note-input');
+      const content = input.value;
+      const msgEl = document.getElementById('dash-msg');
+
+      try {
+        const res = await fetch('/api/notes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: currentUser.userId, content })
+        });
+        if (!res.ok) throw new Error('Failed to save note');
+        
+        input.value = '';
+        msgEl.className = 'message success';
+        msgEl.textContent = 'Note saved!';
+        setTimeout(() => msgEl.textContent = '', 2000);
+        loadNotes();
+      } catch (err) {
+        msgEl.className = 'message error';
+        msgEl.textContent = err.message;
+      }
+    }
+
+    async function loadNotes() {
+      try {
+        const res = await fetch(`/api/notes?userId=${currentUser.userId}`);
+        const notes = await res.json();
+        
+        const list = document.getElementById('notes-list');
+        list.innerHTML = notes.map(n => `
+          <div class="note-item">
+            <div class="note-date">${new Date(n.created_at).toLocaleString()}</div>
+            <div>${n.content}</div>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error('Failed to load notes', err);
+      }
+    }
   </script>
 </body>
-
 </html>
