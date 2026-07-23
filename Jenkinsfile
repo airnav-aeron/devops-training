@@ -49,10 +49,10 @@ pipeline {
                     cd config-k8s
 
                     # 4. Swap the old image for the newly built one inside the staging folder
-                    sed -i "s|image: .*|image: ${REGISTRY}/${APP_NAME}:${env.IMAGE_TAG}|g" staging/deployment.yaml
+                    sed -i "s|image: .*|image: ${REGISTRY}/${APP_NAME}:${env.IMAGE_TAG}|g" staging/statefulset.yaml
 
                     # 5. Commit and push the changes back to GitHub
-                    git add staging/deployment.yaml
+                    git add staging/statefulset.yaml
                     git commit -m "Jenkins automated push: Update image to ${env.IMAGE_TAG}"
                     git push origin staging
                     """
