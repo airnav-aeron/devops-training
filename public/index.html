@@ -79,7 +79,8 @@
       gap: 1.5em;
     }
 
-    input, textarea {
+    input,
+    textarea {
       width: 100%;
       padding: 1em;
       background: rgba(0, 0, 0, 0.2);
@@ -90,7 +91,8 @@
       transition: all 0.3s ease;
     }
 
-    input:focus, textarea:focus {
+    input:focus,
+    textarea:focus {
       outline: none;
       border-color: #2ecc71;
       background: rgba(0, 0, 0, 0.3);
@@ -120,8 +122,13 @@
       min-height: 1.2em;
     }
 
-    .error { color: #e74c3c; }
-    .success { color: #2ecc71; }
+    .error {
+      color: #e74c3c;
+    }
+
+    .success {
+      color: #2ecc71;
+    }
 
     /* Dashboard Styles */
     #dashboard-section {
@@ -134,7 +141,7 @@
       gap: 1em;
       margin-bottom: 2em;
     }
-    
+
     .note-form input {
       flex: 1;
     }
@@ -149,9 +156,18 @@
     }
 
     /* Custom Scrollbar */
-    .notes-list::-webkit-scrollbar { width: 6px; }
-    .notes-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
-    .notes-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+    .notes-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .notes-list::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .notes-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+    }
 
     .note-item {
       background: rgba(0, 0, 0, 0.2);
@@ -173,10 +189,12 @@
       margin-top: 2em;
       width: 100%;
     }
+
     .logout-btn:hover {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
       box-shadow: none;
     }
+
     .app-info {
       margin-top: 2em;
       padding: 1em;
@@ -185,15 +203,18 @@
       font-size: 0.85em;
       color: #cdd9e5;
     }
+
     .app-info div {
       display: flex;
       justify-content: space-between;
       padding: 0.4em 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
+
     .app-info div:last-child {
       border-bottom: none;
     }
+
     .app-info span:first-child {
       color: #7f93a8;
     }
@@ -202,12 +223,12 @@
 
 <body>
   <div class="card" id="main-card">
-    
+
     <!-- Auth Section -->
     <div id="auth-section">
       <h1>Startup Tech Co.</h1>
       <p class="subtitle">Welcome to the secure portal</p>
-      
+
       <div class="tabs">
         <button class="tab active" onclick="switchTab('login')" id="tab-login">Login</button>
         <button class="tab" onclick="switchTab('register')" id="tab-register">Register</button>
@@ -224,7 +245,7 @@
     <!-- Dashboard Section -->
     <div id="dashboard-section">
       <h1>Dashboard</h1>
-      <p class="subtitle">Welcome back, <span id="user-display"></span>!</p>
+      <p class="subtitle">Welcome back Ohayo, <span id="user-display"></span>!</p>
 
       <form class="note-form" onsubmit="addNote(event)">
         <input type="text" id="note-input" placeholder="Enter a new note..." required>
@@ -260,9 +281,9 @@
       const user = document.getElementById('username').value;
       const pass = document.getElementById('password').value;
       const msgEl = document.getElementById('auth-msg');
-      
+
       const endpoint = currentMode === 'login' ? '/api/login' : '/api/register';
-      
+
       try {
         const res = await fetch(endpoint, {
           method: 'POST',
@@ -270,9 +291,9 @@
           body: JSON.stringify({ username: user, password: pass })
         });
         const data = await res.json();
-        
+
         if (!res.ok) throw new Error(data.error || 'Request failed');
-        
+
         msgEl.className = 'message success';
         msgEl.textContent = data.message;
 
@@ -333,7 +354,7 @@
           body: JSON.stringify({ userId: currentUser.userId, content })
         });
         if (!res.ok) throw new Error('Failed to save note');
-        
+
         input.value = '';
         msgEl.className = 'message success';
         msgEl.textContent = 'Note saved!';
@@ -349,7 +370,7 @@
       try {
         const res = await fetch(`/api/notes?userId=${currentUser.userId}`);
         const notes = await res.json();
-        
+
         const list = document.getElementById('notes-list');
         list.innerHTML = notes.map(n => `
           <div class="note-item">
@@ -363,4 +384,5 @@
     }
   </script>
 </body>
+
 </html>
